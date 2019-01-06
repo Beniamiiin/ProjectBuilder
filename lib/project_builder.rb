@@ -20,7 +20,7 @@ module ProjectBuilder
 		method_option :project_name, :type => :string, :required => true, :desc => 'e.g. MyProject'
 		method_option :organization_name, :type => :string, :required => true, :desc => 'e.g. MyCompany'
 		method_option :bundle_id, :type => :string, :required => true, :desc => 'e.g. my.project.bundle.id'
-		method_option :temlates_repository, :type => :string, :default => 'https://github.com/Beniamiiin/ProjectBuilderCatalog.git', :required => true, :desc => 'e.g. https://github.com/Beniamiiin/ProjectBuilderCatalog.git'
+		method_option :templates_repository, :type => :string, :default => 'https://github.com/Beniamiiin/ProjectBuilderCatalog.git', :required => true, :desc => 'e.g. https://github.com/Beniamiiin/ProjectBuilderCatalog.git'
 		def gen
 			# Check if Xcodegen is installed
 			unless ProjectBuilder::DependencyCheker.is_xcodegen_installed
@@ -31,7 +31,7 @@ module ProjectBuilder
 
 			# Downloading templates
 			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
-			templates_downloader.setup(options[:temlates_repository])
+			templates_downloader.setup(options[:templates_repository])
 			templates_downloader.download
 
 			# Creating ProjectInfo model
