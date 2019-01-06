@@ -8,6 +8,7 @@ require 'project_builder/helpers/templates_downloader'
 require 'project_builder/models/project_info'
 
 require 'project_builder/generators/project_generator'
+require 'project_builder/generators/gitignore_generator'
 require 'project_builder/generators/gemfile_generator'
 require 'project_builder/generators/podfile_generator'
 require 'project_builder/generators/fastfile_generator'
@@ -45,6 +46,7 @@ module ProjectBuilder
 
 			# Generating project files
 			generate_project(project_info)
+			generate_gitignore(project_info)
 			generate_gemfile(project_info)
 			generate_podfile(project_info)
 			generate_rambafile(project_info)
@@ -58,6 +60,11 @@ module ProjectBuilder
 		
 		def generate_project(project_info)
 			generator = ProjectBuilder::ProjectGenerator.new
+			generator.generate(project_info)
+		end
+
+		def generate_gitignore(project_info)
+			generator = ProjectBuilder::GitignoreGenerator.new
 			generator.generate(project_info)
 		end
 

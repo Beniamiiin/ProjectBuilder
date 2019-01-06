@@ -31,6 +31,10 @@ module ProjectBuilder
 			"#{@templates_path}/Project/project.yml.liquid"
 		end		
 
+		def gitignore
+			"#{@templates_path}/.gitignore.liquid"
+		end
+
 		def gemfile
 			"#{@templates_path}/Gemfile.liquid"
 		end
