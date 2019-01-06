@@ -1,5 +1,5 @@
 # ProjectBuilder
-Command line tool for creating boilerplate project
+Command line tool for creating a boilerplate project
 
 ### Installing
 1. `git clone https://github.com/Beniamiiin/ProjectBuilder.git`
