@@ -17,3 +17,7 @@ Options:
 
 ### How to use
 `project_builder gen --project-name "MyProject" --organization-name "bsarkisian.me" --bundle-id "bsarkisian.me.myproject"`
+
+### License
+
+MIT
