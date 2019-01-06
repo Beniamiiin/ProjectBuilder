@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "project_builder"
+
+ProjectBuilder::CLI.start(ARGV)
