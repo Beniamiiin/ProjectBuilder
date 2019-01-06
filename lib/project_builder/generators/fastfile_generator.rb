@@ -9,6 +9,8 @@ module ProjectBuilder
 	class FastfileGenerator
 
 		def generate(project_info)
+			puts "\nGenerating fastlane files".colorize(:yellow)
+
 			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
 			file_builder = ProjectBuilder::FileBuilder.new
 

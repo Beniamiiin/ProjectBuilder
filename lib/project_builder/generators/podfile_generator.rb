@@ -1,3 +1,5 @@
+require 'colorize'
+
 require 'project_builder/helpers/templates_downloader'
 require 'project_builder/helpers/file_builder'
 
@@ -7,6 +9,8 @@ module ProjectBuilder
 	class PodfileGenerator
 
 		def generate(project_info)
+			puts "\nGenerating Podfile".colorize(:yellow)
+
 			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
 			
 			file_builder = ProjectBuilder::FileBuilder.new
@@ -17,7 +21,10 @@ module ProjectBuilder
 				project_info.hash_representation
 			)
 
-			`cd #{project_info.name} && bundle exec pod install`
+			puts 'Installing pods'.colorize(:yellow)
+			script = 'bundle exec pod install'
+			puts script.colorize(:green)
+			`cd #{project_info.name} && #{script}`
 		end
 
 	end

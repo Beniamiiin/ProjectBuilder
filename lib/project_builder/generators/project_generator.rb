@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'colorize'
 
 require 'project_builder/helpers/templates_downloader'
 require 'project_builder/helpers/file_builder'
@@ -9,6 +10,8 @@ module ProjectBuilder
 	class ProjectGenerator
 		
 		def generate(project_info)
+			puts "\nGenerating project".colorize(:yellow)
+
 			@project_info = project_info
 			@templates_downloader = ProjectBuilder::TemplatesDownloader.instance
 			@file_builder = ProjectBuilder::FileBuilder.new
@@ -16,7 +19,10 @@ module ProjectBuilder
 			create_project_file
 			create_project_file_structure
 
-			`cd #{project_info.name} && xcodegen generate`
+			puts 'Generating xcodeproj file'.colorize(:yellow)
+			script = 'xcodegen generate'
+			puts script.colorize(:green)
+			`cd #{project_info.name} && #{script}`
 		end
 
 		private

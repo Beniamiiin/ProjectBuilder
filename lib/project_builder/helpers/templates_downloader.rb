@@ -1,4 +1,5 @@
 require 'singleton'
+require 'colorize'
 
 module ProjectBuilder
 	class TemplatesDownloader
@@ -12,7 +13,10 @@ module ProjectBuilder
   		end
 
 		def download
-			`git clone #{@respository}`
+			puts 'Downloading templates'.colorize(:yellow)
+			script = "git clone #{@respository}"
+			puts script.colorize(:green)
+			`#{script}`
 		end
 
 		def delete
