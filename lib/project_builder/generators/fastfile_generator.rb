@@ -9,7 +9,7 @@ module ProjectBuilder
 	class FastfileGenerator
 
 		def generate(project_info)
-			templates_downloader = ProjectBuilder::TemplatesDownloader.new
+			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
 			file_builder = ProjectBuilder::FileBuilder.new
 
 			fastlane_path = "#{project_info.name}/fastlane"

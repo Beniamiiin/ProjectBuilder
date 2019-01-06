@@ -7,7 +7,7 @@ module ProjectBuilder
 	class PodfileGenerator
 
 		def generate(project_info)
-			templates_downloader = ProjectBuilder::TemplatesDownloader.new
+			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
 			
 			file_builder = ProjectBuilder::FileBuilder.new
 			file = "#{project_info.name}/Podfile"

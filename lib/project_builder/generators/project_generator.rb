@@ -10,7 +10,7 @@ module ProjectBuilder
 		
 		def generate(project_info)
 			@project_info = project_info
-			@templates_downloader = ProjectBuilder::TemplatesDownloader.new
+			@templates_downloader = ProjectBuilder::TemplatesDownloader.instance
 			@file_builder = ProjectBuilder::FileBuilder.new
 
 			create_project_file

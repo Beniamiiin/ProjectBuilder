@@ -1,40 +1,48 @@
+require 'singleton'
+
 module ProjectBuilder
 	class TemplatesDownloader
 
-		TEMPLATES_PATH = 'BenToolKit/Templates'.freeze
+		include Singleton
+
+		def setup(respository)
+			@respository = respository
+			@catalog_name = File.basename(respository, '.git')
+			@templates_path = "#{@catalog_name}/Templates"
+  		end
 
 		def download
-			`git clone https://github.com/Beniamiiin/BenToolKit.git`
+			`git clone #{@respository}`
 		end
 
 		def delete
-			`rm -rf BenToolKit`
+			`rm -rf #{@catalog_name}`
 		end
 		
 		def project_files_directory_path
-			"#{TEMPLATES_PATH}/Project"
+			"#{@templates_path}/Project"
 		end
 
 		def project_file
-			"#{TEMPLATES_PATH}/Project/project.yml.liquid"
+			"#{@templates_path}/Project/project.yml.liquid"
 		end		
 
 		def gemfile
-			"#{TEMPLATES_PATH}/Gemfile.liquid"
+			"#{@templates_path}/Gemfile.liquid"
 		end
 
 		def podfile
-			"#{TEMPLATES_PATH}/Podfile.liquid"
+			"#{@templates_path}/Podfile.liquid"
 		end
 
 		def rambafile
-			"#{TEMPLATES_PATH}/Rambafile.liquid"
+			"#{@templates_path}/Rambafile.liquid"
 		end
 
 		def fastlane_files
 			{
-				'fastfile' => "#{TEMPLATES_PATH}/fastlane/Fastfile.liquid",
-				'appfile' => "#{TEMPLATES_PATH}/fastlane/Appfile.liquid"
+				'fastfile' => "#{@templates_path}/fastlane/Fastfile.liquid",
+				'appfile' => "#{@templates_path}/fastlane/Appfile.liquid"
 			}
 		end
 
