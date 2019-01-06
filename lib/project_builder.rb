@@ -3,7 +3,6 @@ require 'fileutils'
 
 require 'project_builder/helpers/dependency_checker'
 require 'project_builder/helpers/dependency_installer'
-require 'project_builder/helpers/project_builder_helper'
 require 'project_builder/helpers/templates_downloader'
 
 require 'project_builder/models/project_info'

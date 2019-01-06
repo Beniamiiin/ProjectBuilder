@@ -29,7 +29,7 @@ module ProjectBuilder
 			)
 
 			# Generating Appfile
-			puts "\nGenerating Appfile".colorize(:yellow)
+			puts "Generating Appfile".colorize(:yellow)
 			
 			appfile = "#{fastlane_path}/Appfile"
 			properties = project_info.hash_representation
