@@ -1,4 +1,5 @@
 require 'thor'
+require 'fileutils'
 
 require 'project_builder/helpers/dependency_checker'
 require 'project_builder/helpers/dependency_installer'
@@ -22,29 +23,35 @@ module ProjectBuilder
 		method_option :bundle_id, :type => :string, :required => true, :desc => 'e.g. my.project.bundle.id'
 		method_option :temlates_repository, :type => :string, :default => 'https://github.com/Beniamiiin/ProjectBuilderCatalog.git', :required => true, :desc => 'e.g. https://github.com/Beniamiiin/ProjectBuilderCatalog.git'
 		def gen
+			# Check if Xcodegen is installed
 			unless ProjectBuilder::DependencyCheker.is_xcodegen_installed
 				puts "Xcodegen didn't find".colorize(:red)
 				puts "Installing xcodegen".colorize(:yellow)
 				ProjectBuilder::DepenencyInstaller.install_xcodegen
 			end
 
+			# Downloading templates
 			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
 			templates_downloader.setup(options[:temlates_repository])
 			templates_downloader.download
 
+			# Creating ProjectInfo model
 			project_info = ProjectBuilder::ProjectInfo.new
 			project_info.name = options[:project_name]
 			project_info.organization_name = options[:organization_name]
 			project_info.bundle_id = options[:bundle_id]
 
-			ProjectBuilder::ProjectBuilderHelper.prepare(project_info)
+			# Creating project root directory
+			FileUtils.mkdir_p project_info.name
 
+			# Generating project files
 			generate_project(project_info)
 			generate_gemfile(project_info)
 			generate_podfile(project_info)
 			generate_rambafile(project_info)
 			generate_fastfile(project_info)
 
+			# Deleting templates
 			templates_downloader.delete
 		end
 

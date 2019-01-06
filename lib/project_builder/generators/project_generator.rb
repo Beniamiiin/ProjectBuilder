@@ -19,9 +19,11 @@ module ProjectBuilder
 			create_project_file
 			create_project_file_structure
 
+			# Generating xcodeproj file
 			puts 'Generating xcodeproj file'.colorize(:yellow)
 			script = 'xcodegen generate'
 			puts script.colorize(:green)
+
 			`cd #{project_info.name} && #{script}`
 		end
 
@@ -50,6 +52,7 @@ module ProjectBuilder
 			properties['date'] = Time.now.strftime("%d/%m/%Y")
 			properties['year'] = Time.now.strftime("%Y")
 
+			# Creating directories
 			Dir.glob("#{code}/**/*/").each do |directory|
 				path = directory.sub("#{code}/", '')
 				next if path.empty?
@@ -57,6 +60,7 @@ module ProjectBuilder
 				
 				FileUtils.mkdir_p path
 
+				# Generating files
 				Dir.glob("#{directory}*.liquid").each do |file|
 					path = file.sub("#{code}/", '').sub('.liquid', '')
 					next if path.empty?

@@ -13,6 +13,7 @@ module ProjectBuilder
 
 			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
 			
+			# Generating Gemfile
 			file_builder = ProjectBuilder::FileBuilder.new
 			file = "#{project_info.name}/Gemfile"
 			file_builder.build_file(
@@ -21,9 +22,11 @@ module ProjectBuilder
 				project_info.hash_representation
 			)
 
+			# Installing gems
 			puts 'Installing gems'.colorize(:yellow)
 			script = 'bundle install'
 			puts script.colorize(:green)
+			
 			`cd #{project_info.name} && #{script}`
 		end
 

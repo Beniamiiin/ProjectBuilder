@@ -13,6 +13,7 @@ module ProjectBuilder
 
 			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
 			
+			# Generating Rambafile
 			file_builder = ProjectBuilder::FileBuilder.new
 			file = "#{project_info.name}/Rambafile"
 			file_builder.build_file(
@@ -21,9 +22,11 @@ module ProjectBuilder
 				project_info.hash_representation
 			)
 
+			# Downloading generamba templates
 			puts 'Downloading generamba templates'.colorize(:yellow)
 			script = 'bundle exec generamba template install'
 			puts script.colorize(:green)
+			
 			`cd #{project_info.name} && #{script}`
 		end
 
