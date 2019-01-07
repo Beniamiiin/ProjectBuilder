@@ -10,30 +10,31 @@ module ProjectBuilder
 	class ProjectGenerator
 		
 		def generate(project_info)
-			puts "\nGenerating project".colorize(:yellow)
-
 			@project_info = project_info
 			@templates_downloader = ProjectBuilder::TemplatesDownloader.instance
 			@file_builder = ProjectBuilder::FileBuilder.new
+
+			puts "\nGenerating project".colorize(:yellow)
 
 			create_project_file
 			create_project_file_structure
 
 			# Generating xcodeproj file
 			puts 'Generating xcodeproj file'.colorize(:yellow)
-			script = 'xcodegen generate'
+
+			script = "xcodegen generate --spec #{project_info.name}/project.yml"
 			puts script.colorize(:green)
 
-			`cd #{project_info.name} && #{script}`
+			output = `#{script}`
+			puts output
 		end
 
 		private
 
 		def create_project_file
-			file = "#{@project_info.name}/project.yml"
 			@file_builder.build_file(
-				file,
 				@templates_downloader.project_file,
+				"#{@project_info.name}/project.yml",
 				@project_info.hash_representation
 			)
 		end
@@ -53,21 +54,22 @@ module ProjectBuilder
 			properties['year'] = Time.now.strftime("%Y")
 
 			# Creating directories
+			root_directory = "#{@project_info.name}/#{@project_info.name}"
 			Dir.glob("#{code}/**/*/").each do |directory|
-				path = directory.sub("#{code}/", '')
-				next if path.empty?
-				path = "#{@project_info.name}/#{@project_info.name}/#{path}"
+				directory_path = directory.sub("#{code}/", '')
+				next if directory_path.empty?
+				directory_path = "#{root_directory}/#{directory_path}"
 				
-				FileUtils.mkdir_p path
-
+				FileUtils.mkdir_p directory_path
+				
 				# Generating files
-				Dir.glob("#{directory}*.liquid").each do |file|
-					path = file.sub("#{code}/", '').sub('.liquid', '')
-					next if path.empty?
-					path = "#{@project_info.name}/#{@project_info.name}/#{path}"
+				Dir.glob("#{directory}*.liquid").each do |template_file|
+					file_path = template_file.sub("#{code}/", '').sub('.liquid', '')
+					next if file_path.empty?
+					file_path = "#{root_directory}/#{file_path}"
 
-					properties['file_name'] = File.basename(path)
-					@file_builder.build_file(path, file, properties)
+					properties['file_name'] = File.basename(file_path)
+					@file_builder.build_file(template_file, file_path, properties)
 				end
 			end
 		end

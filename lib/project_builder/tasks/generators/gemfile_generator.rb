@@ -9,25 +9,26 @@ module ProjectBuilder
 	class GemfileGenerator
 
 		def generate(project_info)
+			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
+			file_builder = ProjectBuilder::FileBuilder.new
+						
+			# Generating Gemfile
 			puts "\nGenerating Gemfile".colorize(:yellow)
 
-			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
-			
-			# Generating Gemfile
-			file_builder = ProjectBuilder::FileBuilder.new
-			file = "#{project_info.name}/Gemfile"
 			file_builder.build_file(
-				file,
-				templates_downloader.gemfile, 
+				templates_downloader.gemfile,
+				"#{project_info.name}/Gemfile",
 				project_info.hash_representation
 			)
 
 			# Installing gems
 			puts 'Installing gems'.colorize(:yellow)
-			script = 'bundle install'
+
+			script = "bundle install --gemfile #{project_info.name}/Gemfile"
 			puts script.colorize(:green)
 			
-			`cd #{project_info.name} && #{script}`
+			output = `#{script}`
+			puts output
 		end
 
 	end

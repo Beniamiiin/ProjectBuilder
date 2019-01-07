@@ -3,10 +3,9 @@ require 'liquid'
 module ProjectBuilder
 	class FileBuilder
 
-		def build_file(name, template_path, properties = {})
-			file_source = IO.read(template_path)
-			content = Liquid::Template.parse(file_source).render(properties)
-			File.open(name, 'w+') { |f| f.write(content) }
+		def build_file(liquid, outfile_path, properties = {})
+			content = Liquid::Template.parse(IO.read(liquid)).render(properties)
+			File.open(outfile_path, 'w+') { |f| f.write(content) }
 		end
 
 	end

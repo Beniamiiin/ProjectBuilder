@@ -11,32 +11,29 @@ module ProjectBuilder
 		def generate(project_info)
 			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
 			file_builder = ProjectBuilder::FileBuilder.new
-
+			fastlane_files = templates_downloader.fastlane_files
+			
 			# Creating fastlane directory
 			fastlane_path = "#{project_info.name}/fastlane"
 			FileUtils.mkdir_p fastlane_path
 
-			fastlane_files = templates_downloader.fastlane_files 
-			
 			# Generating Fastfile
 			puts "\nGenerating Fastfile".colorize(:yellow)
 
-			fastfile = "#{fastlane_path}/Fastfile"
 			file_builder.build_file(
-				fastfile,
 				fastlane_files['fastfile'],
+				"#{fastlane_path}/Fastfile",
 				project_info.hash_representation
 			)
 
 			# Generating Appfile
 			puts "Generating Appfile".colorize(:yellow)
 			
-			appfile = "#{fastlane_path}/Appfile"
 			properties = project_info.hash_representation
 			properties['user'] = {'email' => `git config user.email`.delete!("\n")}
 			file_builder.build_file(
-				appfile,
 				fastlane_files['appfile'],
+				"#{fastlane_path}/Appfile",
 				properties
 			)
 		end

@@ -9,14 +9,16 @@ module ProjectBuilder
 	class GitignoreGenerator
 
 		def generate(project_info)
+			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
+			file_builder = ProjectBuilder::FileBuilder.new
+						
+			# Generating .gitignore
 			puts "\nGenerating .gitignore".colorize(:yellow)
 
-			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
-			
-			# Generating .gitignore
-			file_builder = ProjectBuilder::FileBuilder.new
-			file = "#{project_info.name}/.gitignore"
-			file_builder.build_file(file, templates_downloader.gitignore)
+			file_builder.build_file(
+				templates_downloader.gitignore,
+				"#{project_info.name}/.gitignore"
+			)
 		end
 
 	end

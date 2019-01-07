@@ -26,11 +26,11 @@ module ProjectBuilder
 		method_option :templates_repository, :type => :string, :default => 'https://github.com/Beniamiiin/ProjectBuilderCatalog.git', :required => true, :desc => 'e.g. https://github.com/Beniamiiin/ProjectBuilderCatalog.git'
 		def gen
 			# Check if Xcodegen is installed
-			unless ProjectBuilder::DependencyCheker.is_xcodegen_installed
-				puts "Xcodegen didn't find".colorize(:red)
-				puts "Installing xcodegen".colorize(:yellow)
-				ProjectBuilder::DepenencyInstaller.install_xcodegen
-			end
+			# unless ProjectBuilder::DependencyCheker.is_xcodegen_installed
+			# 	puts "Xcodegen didn't find".colorize(:red)
+			# 	puts "Installing xcodegen".colorize(:yellow)
+			# 	ProjectBuilder::DepenencyInstaller.install_xcodegen
+			# end
 
 			# Downloading templates
 			templates_downloader = ProjectBuilder::TemplatesDownloader.instance
@@ -50,8 +50,8 @@ module ProjectBuilder
 			generate_project(project_info)
 			generate_gemfile(project_info)
 			generate_podfile(project_info)
-			generate_fastfile(project_info)
 			generate_rambafile(project_info)
+			generate_fastfile(project_info)
 			generate_gitignore(project_info)
 			
 			# Get init
