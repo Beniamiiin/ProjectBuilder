@@ -7,12 +7,14 @@ require 'project_builder/helpers/templates_downloader'
 
 require 'project_builder/models/project_info'
 
-require 'project_builder/generators/project_generator'
-require 'project_builder/generators/gitignore_generator'
-require 'project_builder/generators/gemfile_generator'
-require 'project_builder/generators/podfile_generator'
-require 'project_builder/generators/fastfile_generator'
-require 'project_builder/generators/rambafile_generator'
+require 'project_builder/tasks/generators/project_generator'
+require 'project_builder/tasks/generators/gitignore_generator'
+require 'project_builder/tasks/generators/gemfile_generator'
+require 'project_builder/tasks/generators/podfile_generator'
+require 'project_builder/tasks/generators/fastfile_generator'
+require 'project_builder/tasks/generators/rambafile_generator'
+
+require 'project_builder/tasks/git_init'
 
 module ProjectBuilder
 	class CLI < Thor
@@ -46,11 +48,14 @@ module ProjectBuilder
 
 			# Generating project files
 			generate_project(project_info)
-			generate_gitignore(project_info)
 			generate_gemfile(project_info)
 			generate_podfile(project_info)
-			generate_rambafile(project_info)
 			generate_fastfile(project_info)
+			generate_rambafile(project_info)
+			generate_gitignore(project_info)
+			
+			# Get init
+			git_init(project_info)
 
 			# Deleting templates
 			templates_downloader.delete
@@ -86,6 +91,11 @@ module ProjectBuilder
 		def generate_rambafile(project_info)
 			generator = ProjectBuilder::RambafileGenerator.new
 			generator.generate(project_info)
+		end
+
+		def git_init(project_info)
+			git_init = ProjectBuilder::GitInit.new
+			git_init.execute(project_info)
 		end
 
 	end
