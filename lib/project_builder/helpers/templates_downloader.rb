@@ -9,18 +9,18 @@ module ProjectBuilder
 		def setup(respository)
 			@respository = respository
 			@catalog_name = File.basename(respository, '.git')
-			@templates_path = "#{@catalog_name}/Templates"
+			@templates_path = ".#{@catalog_name}/Templates"
   		end
 
 		def download
 			puts 'Downloading templates'.colorize(:yellow)
-			script = "git clone #{@respository}"
+			script = "git clone #{@respository} .#{@catalog_name}"
 			puts script.colorize(:green)
 			`#{script}`
 		end
 
 		def delete
-			`rm -rf #{@catalog_name}`
+			`rm -rf .#{@catalog_name}`
 		end
 		
 		def project_files_directory_path
